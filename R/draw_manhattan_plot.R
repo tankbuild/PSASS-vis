@@ -90,6 +90,9 @@ draw_manhattan_plot <- function(data,
 
         }
 
+    } else if (track == "male2female_depth") {
+        manhattan_data <- data$depth[, c(1, 2, 10, 8, 9)]
+        y_title = expression(bold(paste("Male/Female depth ratio in a sliding window")))
     }
 
     names(manhattan_data) <- c("Contig", "Position", "Value", "Original_position", "Contig_id")
