@@ -205,6 +205,10 @@ draw_manhattan_plot <- function(data,
             ggplot2::theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title.x = element_blank())
 
     }
+    # add a horizontal
+    if (track == "male2female_depth") {
+        manhattan_plot <- manhattan_plot + ggplot2::geom_hline(yintercept = 1.5, col = 'red')
+    }
 
     if (!is.null(output.file)) {
 
