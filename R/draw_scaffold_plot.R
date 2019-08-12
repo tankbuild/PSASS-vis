@@ -226,7 +226,7 @@ draw_scaffold_plot <- function(data, scaffold, region = NULL,
 
     if (!is.null(output.file)) {
 
-        cowplot::ggsave(output.file, plot = combined, width = width, height = height * n_tracks, dpi = dpi)
+        cowplot::ggsave2(output.file, plot = combined, width = width, height = height * n_tracks, dpi = dpi)
 
     } else {
 
