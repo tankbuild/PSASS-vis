@@ -205,7 +205,7 @@ draw_manhattan_plot <- function(data,
 
     if (!is.null(output.file)) {
 
-        cowplot::ggsave(output.file, plot = manhattan_plot, width = width, height = height, dpi = dpi)
+        cowplot::ggsave2(output.file, plot = manhattan_plot, width = width, height = height, dpi = dpi)
 
     } else {
 
