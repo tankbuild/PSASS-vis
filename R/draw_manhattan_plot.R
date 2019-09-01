@@ -37,9 +37,7 @@ draw_manhattan_plot <- function(data,
                                 point.size = 0.5, point.palette = c("dodgerblue3", "darkgoldenrod2"), background.palette = c("grey85", "grey100"),
                                 depth.type = "absolute", min.depth = 10, unplaced = TRUE) {
 
-    # Compute cumulative lengths of contigs, which will be added to the position of each point depending on the contig
-    cumulative_lengths <- c(0, cumsum(data$lengths$lg))
-    names(cumulative_lengths) <- c(names(data$lengths$lg), "Unplaced")
+
 
     # Load data
     if (track == "window_fst") {
@@ -96,8 +94,18 @@ draw_manhattan_plot <- function(data,
     }
 
     names(manhattan_data) <- c("Contig", "Position", "Value", "Original_position", "Contig_id")
+  
     if (unplaced == FALSE){
         manhattan_data <- manhattan_data[!(manhattan_data$Contig=="Unplaced"),]
+            # Compute cumulative lengths of contigs, which will be added to the position of each point depending on the contig
+        cumulative_lengths <- c(0, cumsum(data$lengths$lg))
+        names(cumulative_lengths) <- c(names(data$lengths$lg), "Unplaced")
+        cumulative_lengths <- cumulative_lengths[-length(cumulative_lengths)]
+        data$lengths$plot <- data$lengths$plot[-length(data$lengths$plot)]
+    } else {
+        # Compute cumulative lengths of contigs, which will be added to the position of each point depending on the contig
+        cumulative_lengths <- c(0, cumsum(data$lengths$lg))
+        names(cumulative_lengths) <- c(names(data$lengths$lg), "Unplaced")
     }
 
     # Adjust x-axis position for each point in the data based on cumulative lengths of contigs
@@ -132,6 +140,14 @@ draw_manhattan_plot <- function(data,
 
     }
 
+      # Maximum / minimum Y value
+    ymax = 1.1 * max(manhattan_data$Value)
+    ymin = min(manhattan_data$Value)
+    if (track == "window_snp_females" | track == "window_snp_females"){
+        ymax = 1.1 * max(data$window_snp[, 3], data$window_snp[, 4])
+        ymin = min(data$window_snp[, 3], data$window_snp[, 4])
+    }
+  
     # Create the background data for alternating background color
     if (length(data$lengths$lg) > 0) {
 
@@ -149,13 +165,6 @@ draw_manhattan_plot <- function(data,
     # Create merged color palette for background and data points
     merged_color_palette <- c("0"=point.palette[1], "1"=point.palette[2], "B"=background.palette[1], "A"=background.palette[2])
 
-    # Maximum / minimum Y value
-    ymax = 1.1 * max(manhattan_data$Value)
-    ymin = min(manhattan_data$Value)
-    if (track == "window_snp_females" | track == "window_snp_females"){
-        ymax = 1.1 * max(data$window_snp[, 3], data$window_snp[, 4])
-        ymin = min(data$window_snp[, 3], data$window_snp[, 4])
-    }
 
     manhattan_plot <- ggplot2::ggplot() +
         # Backgrounds with alternating colors
