@@ -35,7 +35,7 @@ draw_manhattan_plot <- function(data,
                                 output.file = NULL, width = 14, height = 8, dpi = 300,
                                 track = "window_fst", lg_numbers = FALSE,
                                 point.size = 0.5, point.palette = c("dodgerblue3", "darkgoldenrod2"), background.palette = c("grey85", "grey100"),
-                                depth.type = "absolute", min.depth = 10) {
+                                depth.type = "absolute", min.depth = 10, unplaced == TRUE) {
 
     # Compute cumulative lengths of contigs, which will be added to the position of each point depending on the contig
     cumulative_lengths <- c(0, cumsum(data$lengths$lg))
@@ -96,6 +96,9 @@ draw_manhattan_plot <- function(data,
     }
 
     names(manhattan_data) <- c("Contig", "Position", "Value", "Original_position", "Contig_id")
+    if (unplaced == FALSE){
+        manhattan_data <- manhattan_data[!(manhattan_data$Contig=="Unplaced"),]
+    }
 
     # Adjust x-axis position for each point in the data based on cumulative lengths of contigs
     manhattan_data$Position = manhattan_data$Position + cumulative_lengths[manhattan_data$Contig]
