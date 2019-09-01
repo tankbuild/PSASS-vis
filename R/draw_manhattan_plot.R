@@ -149,6 +149,10 @@ draw_manhattan_plot <- function(data,
     # Maximum / minimum Y value
     ymax = 1.1 * max(manhattan_data$Value)
     ymin = min(manhattan_data$Value)
+    if (track == "window_snp_females" | track == "window_snp_females"){
+        ymax = 1.1 * max(data$window_snp[, 3], data$window_snp[, 4])
+        ymin = min(data$window_snp[, 3], data$window_snp[, 4])
+    }
 
     manhattan_plot <- ggplot2::ggplot() +
         # Backgrounds with alternating colors
