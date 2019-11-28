@@ -227,7 +227,7 @@ draw_manhattan_plot <- function(data,
     }
 #     add 95% CI
     if (track == "window_snp_females" | track == "window_snp_females"){
-        c = Rmisc::CI(c(data$window_snp[, c(3)],data$window_snp[, c(4)]), ci = 0.95)
+        c = Rmisc::CI(c(data$window_snp$Males,data$window_snp$Females), ci = 0.95)
         manhattan_plot <- manhattan_plot + ggplot2::geom_hline(yintercept = c[1], col = 'red')
         manhattan_plot <- manhattan_plot + ggplot2::geom_hline(yintercept = c[2], col = 'red')
     }
